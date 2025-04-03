@@ -1,5 +1,6 @@
 import { createElement } from "react";
 import "./App.css";
+import Screen from "./game/Screen";
 
 function App() {
   return (
@@ -15,22 +16,7 @@ function App() {
           }}
         >
           {/* container screen */}
-          <div
-            style={{
-              paddingTop: "5%",
-              paddingBottom: "25%",
-              justifyContent: "center",
-              display: "flex",
-            }}
-          >
-            <div
-              style={{
-                width: "90%",
-                height: "200px",
-                backgroundColor: "olive",
-              }}
-            ></div>
-          </div>
+          <Screen />
           {/* container buttons */}
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <div

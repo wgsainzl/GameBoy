@@ -1,0 +1,29 @@
+/* PAD styles */
+.container-pad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 8%;
+}
+
+.pad-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 4px;
+  background-color: #010104;
+  box-shadow: 1px 2px 3px #848484;
+}
+
+.container-central {
+  display: flex;
+}
+
+.screen {
+  width: 90%;
+  height: 200px;
+  background-color: #9ca04c;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}

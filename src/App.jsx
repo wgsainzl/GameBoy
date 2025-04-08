@@ -1,8 +1,37 @@
-import { createElement } from "react";
+import { use, useEffect, useState } from "react";
 import "./App.css";
-import Screen from "./game/Screen";
+import Pad from "./game/buttons/Pad.jsx";
+import Startselect from "./game/buttons/StartSelect.jsx"
+import Screen from "./game/Screen.jsx"
 
 function App() {
+
+  const [pokemones, setPokemones] = useState([]);
+
+  const BASE_URL = "https://pokeapi.co/api/v2/";
+
+  const getPokemones= async() => {
+    const res = await fetch(`${BASE_URL}/pokemon`);
+    const data = await res.json();
+    console.log(data);
+    const pokemonsDetails = await getDetails(data.results);
+    setPokemones(pokemonsDetails);
+  }
+
+  const getDetails = async (results) => {
+    const res = await Promise.all(results.map((result) => fetch(result.url)));
+    const data = await Promise.all(( res).map((gato) => gato.json()));
+    return data;
+  }
+
+  const handlePress = (dir) => {
+    console.log(dir);
+  }
+
+  useEffect(() => {
+    getPokemones();
+  }, [])
+
   return (
     <>
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -16,86 +45,48 @@ function App() {
           }}
         >
           {/* container screen */}
-          <Screen />
-          {/* container buttons */}
-          <div style={{ display: "flex", justifyContent: "space-around" }}>
-            <div
-              style={{
-                width: "60px",
-                height: "60px",
-                backgroundColor: "#C8C5CA",
-                borderRadius: "20px 20px 20px 20px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div>
-                <button
-                  style={{
-                    backgroundColor: "black",
-                    width: "45px",
-                    height: "45px",
-                  }}
-                ></button>
-              </div>
-            </div>
+
+          <Screen pokemones={pokemones}/>
+          {/* Container de botones */}
+          <div style={{ display: "flex", justifyContent: "space-around",  }}>
+            <Pad handlePress ={handlePress}/>
             <div style={{ paddingTop: "30%" }}>
               <div
                 style={{
                   width: "60px",
                   height: "60px",
+                  display: "flex",
                   backgroundColor: "gray",
-                  display:"flex",
-                  alignItems:"center" 
+                  alignItems: "center",
                 }}
               >
-                <button
-                  style={{
-                    height: "1px",
-                    width: "30px",
-                    transform: "rotate(150deg",
-                  }}
-                ></button>
-                <button
-                  style={{
-                    height: "1px",
-                    width: "30px",
-                    transform: "rotate(150deg",
-                  }}
-                ></button>
+                <button style={{ rotate: "150deg" }}></button>
+                <button style={{ rotate: "150deg" }}></button>
               </div>
             </div>
-            {/* botones A y B */}
             <div
               style={{
                 width: "60px",
                 height: "60px",
-                display: "flex",
                 backgroundColor: "black",
-                borderRadius: "10px 10px 10px 10px",
               }}
             >
-              <div>
-                <button
-                  style={{
-                    backgroundColor: "#821660",
-                    borderRadius: "50%",
-                    height: "40px",
-                    width: "40px",
-                  }}
-                ></button>
-              </div>
-              <div>
-                <button
-                  style={{
-                    backgroundColor: "#821660",
-                    borderRadius: "50%",
-                    height: "40px",
-                    width: "40px",
-                  }}
-                ></button>
-              </div>
+              <button
+                style={{
+                  backgroundColor: "#41498F",
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                }}
+              ></button>
+              <button
+                style={{
+                  backgroundColor: "#41498F",
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                }}
+              ></button>
             </div>
           </div>
         </div>

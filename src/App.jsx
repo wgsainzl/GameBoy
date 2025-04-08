@@ -48,7 +48,7 @@ function App() {
 
           <Screen pokemones={pokemones}/>
           {/* Container de botones */}
-          <div style={{ display: "flex", justifyContent: "space-around",  }}>
+          <div style={{ display: "flex", justifyContent: "space-around"}}>
             <Pad handlePress ={handlePress}/>
             <div style={{ paddingTop: "30%" }}>
               <div

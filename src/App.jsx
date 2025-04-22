@@ -7,6 +7,8 @@ import Screen from "./game/Screen.jsx"
 function App() {
 
   const [pokemones, setPokemones] = useState([]);
+  const [hoverPokemon, setHoverPokemon] = useState(0);
+  const [selectedPokemones, setSelectedPokemones] = useState([]);
 
   const BASE_URL = "https://pokeapi.co/api/v2/";
 
@@ -26,6 +28,33 @@ function App() {
 
   const handlePress = (dir) => {
     console.log(dir);
+    if (dir === 'right') {
+      setHoverPokemon(hoverPokemon + 1);
+    }
+    if (dir === 'left') {
+      setHoverPokemon(hoverPokemon - 1);
+    }
+  }
+
+  const handleSelectPokemon = () => {
+    console.log('select pokemon', hoverPokemon);
+    const pokemonSelected = pokemones.filter(
+      (pokemon) => pokemon.id === hoverPokemon
+    );
+
+    const selections = [pokemonSelected, computerSelection()];
+
+    console.log({selections});
+    setSelectedPokemones(selections);
+  };
+
+  const computerSelection = () => {
+    const randomId = Math.floor(Math.random() * pokemones.length);
+    console.log(randomId);
+    const selectElement = pokemones.filter((pokemon) => pokemon.id == randomId);
+    console.log({selectElement})
+
+    return selectElement
   }
 
   useEffect(() => {
@@ -46,22 +75,22 @@ function App() {
         >
           {/* container screen */}
 
-          <Screen pokemones={pokemones}/>
+          <Screen pokemones={pokemones} hoverPokemon={hoverPokemon} selectedPokemones={selectedPokemones} />
           {/* Container de botones */}
           <div style={{ display: "flex", justifyContent: "space-around"}}>
             <Pad handlePress ={handlePress}/>
             <div style={{ paddingTop: "30%" }}>
               <div
                 style={{
-                  width: "60px",
-                  height: "60px",
+                  width: "100px",
+                  height: "100px",
                   display: "flex",
                   backgroundColor: "gray",
                   alignItems: "center",
                 }}
               >
-                <button style={{ rotate: "150deg" }}></button>
-                <button style={{ rotate: "150deg" }}></button>
+                <button className= "selectButton" style={{ rotate: "320deg" }} onClick={handleSelectPokemon}> Select </button>
+                <button className= "selectButton" style={{ rotate: "320deg" }}> Start </button>
               </div>
             </div>
             <div

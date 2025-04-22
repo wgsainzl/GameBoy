@@ -26,6 +26,7 @@
   flex-wrap: wrap;
   overflow-x: hidden;
   overflow-y: scroll;
+  margin-top: 15px;
 }
 
 .screen-text {
@@ -34,4 +35,11 @@
   justify-content: center;
   width: 100%;
   flex-direction: column;
+}
+
+.selectButton {
+  width:90px;
+  height: 10px;
+  font-size: 10px;
+  margin-bottom: 5px;
 }

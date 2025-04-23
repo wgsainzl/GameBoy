@@ -36,10 +36,3 @@
   width: 100%;
   flex-direction: column;
 }
-
-.selectButton {
-  width:90px;
-  height: 10px;
-  font-size: 10px;
-  margin-bottom: 5px;
-}

@@ -5,9 +5,20 @@
   height: 15px;
   font-size: 10px;
   margin-bottom: 5px;
+  margin-top: 20px;
+  background-color: lightblue;
+  border-radius: 8px;
+}
+
+.selectButton:hover{
+  background-color: rgb(160, 160, 255);
 }
 
 .divSelect {
     height: 40px;
     width: 40px;
+}
+
+.buttonAction:hover {
+  background-color: rgb(123, 123, 255);
 }

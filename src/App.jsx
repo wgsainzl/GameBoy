@@ -6,15 +6,19 @@ import Screen from "./game/Screen.jsx";
 
 function App() {
   const [pokemones, setPokemones] = useState([]);
-  const [hoverPokemon, setHoverPokemon] = useState(0);
+  const [hoverPokemon, setHoverPokemon] = useState(1);
   const [selectedPokemones, setSelectedPokemones] = useState([]);
+  const [moves, setMoves] = useState([]);
+  const [hoverMove, setHoverMove] = useState(0);
+  const [selectedMoves, setSelectedMoves] = useState([]);
+  const [playerHp, setPlayerHp] = useState(100);
+  const [cpuHp, setCpuHp] = useState(100);
 
   const BASE_URL = "https://pokeapi.co/api/v2/";
 
   const getPokemones = async () => {
     const res = await fetch(`${BASE_URL}/pokemon`);
     const data = await res.json();
-    console.log(data);
     const pokemonsDetails = await getDetails(data.results);
     setPokemones(pokemonsDetails);
   };
@@ -26,25 +30,41 @@ function App() {
   };
 
   const handlePress = (dir) => {
-    console.log(dir);
     if (dir === "right") {
-      setHoverPokemon(hoverPokemon + 1);
+      setHoverPokemon((prev) => (prev < pokemones.length ? prev + 1 : 1));
     }
     if (dir === "left") {
-      setHoverPokemon(hoverPokemon - 1);
+      setHoverPokemon((prev) => (prev > 1 ? prev - 1 : pokemones.length));
+    }
+    if (dir === "down") {
+      setHoverMove((prev) => (prev < 4 ? prev + 1 : 0));
+    }
+    if (dir === "up") {
+      setHoverMove((prev) => (prev > 0 ? prev - 1 : 3));
+    }
+  };
+
+  const handleAttack = () => {
+    if (selectedPokemones.length === 2) {
+      const damage = Math.floor(Math.random() * 20) + 5;
+      setCpuHp((prev) => Math.max(prev - damage, 0));
+
+      setTimeout(() => {
+        const cpuDamage = Math.floor(Math.random() * 20) + 5;
+        setPlayerHp((prev) => Math.max(prev - cpuDamage, 0));
+      }, 1000);
     }
   };
 
   const handleSelectPokemon = () => {
-    console.log("select pokemon", hoverPokemon);
     const pokemonSelected = pokemones.filter(
       (pokemon) => pokemon.id === hoverPokemon
     );
 
     const selections = [pokemonSelected, computerSelection()];
 
-    console.log({ selections });
     setSelectedPokemones(selections);
+    setHoverMove(0);
   };
 
   const computerSelection = () => {
@@ -70,6 +90,7 @@ function App() {
             height: "500px",
             border: "2px black solid",
             borderRadius: "5px 5px 35px 5px",
+            backgroundColor: "lightskyblue",
           }}
         >
           {/* container screen */}
@@ -78,6 +99,9 @@ function App() {
             pokemones={pokemones}
             hoverPokemon={hoverPokemon}
             selectedPokemones={selectedPokemones}
+            hoverMove={hoverMove}
+            playerHp={playerHp}
+            cpuHp={cpuHp}
           />
           {/* Container de botones */}
           <div style={{ display: "flex", justifyContent: "space-around" }}>
@@ -94,7 +118,7 @@ function App() {
                 <div className="divSelect">
                   <button
                     className="selectButton"
-                    style={{ rotate: "330deg"}}
+                    style={{ rotate: "330deg" }}
                     onClick={handleSelectPokemon}
                   >
                     {" "}
@@ -123,13 +147,24 @@ function App() {
                 }}
               >
                 <button
+                  className="buttonAction"
                   style={{
                     backgroundColor: "#41498F",
                     width: "30px",
                     height: "30px",
                     borderRadius: "50%",
                   }}
-                ></button>
+                  onClick={handleAttack}
+                >
+                  <p
+                    style={{
+                      marginTop: 5,
+                      color: "#d3d3d3 ",
+                    }}
+                  >
+                    A
+                  </p>
+                </button>
               </div>
               <div
                 style={{
@@ -137,13 +172,23 @@ function App() {
                 }}
               >
                 <button
+                  className="buttonAction"
                   style={{
                     backgroundColor: "#41498F",
                     width: "30px",
                     height: "30px",
                     borderRadius: "50%",
                   }}
-                ></button>
+                >
+                  <p
+                    style={{
+                      marginTop: 5,
+                      color: "#d3d3d3",
+                    }}
+                  >
+                    B
+                  </p>
+                </button>
               </div>
             </div>
           </div>
